@@ -12,7 +12,7 @@ WSGISocketPrefix /var/run/wsgi
         DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
         ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
         #CustomLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/access.log common
-        CustomLog  '/usr/bin/logger -p local4.info -t apache' combined
+        CustomLog  '|/usr/bin/logger -p local4.info -t apache' combined
 
         <Location />
 		      AuthType Basic
