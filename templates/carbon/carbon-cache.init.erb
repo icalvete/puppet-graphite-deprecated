@@ -1,0 +1,66 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          carbon-cache
+# Required-Start:    $network $syslog
+# Required-Stop:     $network $syslog
+# Should-Start:      carbon-cache
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+
+EXEC="<%= @install_path%>/<%= @carbon_dirname%>/bin/carbon-cache.py"
+PIDFILE="/var/run/carbon-cache.pid"
+CONFIGFILE="<%= @install_path%>/<%= @carbon_dirname%>/conf/carbon.conf"
+LOGDIR="/var/log/graphite"
+LOCKFILE="/var/lock/carbon-cache"
+
+
+start() {
+	echo -n "Starting `basename $EXEC`: "
+	python $EXEC --config=$CONFIGFILE --pidfile=$PIDFILE --logdir=$LOGDIR start
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch $LOCKFILE
+	return $RETVAL 
+}
+
+stop() {
+	echo -n "Stopping `basename $EXEC`: "
+	python $EXEC --config=$CONFIGFILE --pidfile=$PIDFILE --logdir=$LOGDIR stop
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+	return $RETVAL
+}
+
+status() {
+	python $EXEC --config=$CONFIGFILE --pidfile=$PIDFILE --logdir=$LOGDIR status
+}
+
+
+
+
+
+case "$1" in
+
+	start)
+		status
+		RETVAL=$?
+		if [ $RETVAL -eq 0 ]; then
+			echo "Proceso corriendo actualmente"
+			exit 1	
+		fi
+		start
+		;;
+	stop)
+		stop
+		;;
+	status) 
+		status
+		;;
+	*)
+		echo "Usage: $0 {start|stop|status}"
+		exit 2
+		;;
+esac
+
+exit $?

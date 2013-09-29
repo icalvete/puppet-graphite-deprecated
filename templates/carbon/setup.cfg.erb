@@ -1,0 +1,9 @@
+[install]
+prefix = <%= @install_path %>/<%= @carbon_dirname %>
+install-lib = %(prefix)s/lib
+
+[bdist_rpm]
+requires = python-twisted
+           whisper
+
+post-install = distro/redhat/misc/postinstall
