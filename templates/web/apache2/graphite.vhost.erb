@@ -1,14 +1,19 @@
-#<IfModule !wsgi_module.c>
-#    LoadModule wsgi_module modules/mod_wsgi.so
-#</IfModule>
-
 # XXX You need to set this up!
 # Read http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGISocketPrefix
 WSGISocketPrefix /var/run/wsgi
 
+#<IfModule !wsgi_module.c>
+#    LoadModule wsgi_module modules/mod_wsgi.so
+#</IfModule>
+
+<VirtualHost *:80>
+  ServerName graphite.<%= scope.lookupvar('kibana3::params::org_domain') %>
+  RedirectPermanent / https://graphite.<%= scope.lookupvar('kibana3::params::org_domain') %>
+</VirtualHost>
+
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
-        ServerName graphite.smartpurposes.net
+        ServerName graphite.<%= scope.lookupvar('kibana3::params::org_domain') %>
         DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
         ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
         #CustomLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/access.log common

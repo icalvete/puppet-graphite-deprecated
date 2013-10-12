@@ -1,5 +1,7 @@
 class graphite::params {
 
+  $org_domain           = hiera('org_domain')
+
   $install_path         = '/srv'
   $source_package_path  = '/usr/src'
 
