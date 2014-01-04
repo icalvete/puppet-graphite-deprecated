@@ -138,24 +138,24 @@ USE_REMOTE_USER_AUTHENTICATION = True
 #
 # Users with Django 1.2 or greater should use the new dictionary
 # specification as the old database specification style is removed in 1.4
-#DATABASES = {
-#    'default': {
-#        'NAME': '/opt/graphite/storage/graphite.db',
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'USER': '',
-#        'PASSWORD': '',
-#        'HOST': '',
-#        'PORT': ''
-#    }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '<%= scope.lookupvar('graphite:params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/graphite.db',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ''
+    }
+}
 #
 # Users still on Django 1.1 must use the old method instead:
-#DATABASE_ENGINE = 'django.db.backends.mysql'
-#DATABASE_NAME = 'graphite'      # Or path to the database file if using sqlite3
-#DATABASE_USER = 'graphite'
-#DATABASE_PASSWORD = 'graphite-is-awesome'
-#DATABASE_HOST = 'mysql.mycompany.com'
-#DATABASE_PORT = '3306'
+DATABASE_ENGINE = 'django.db.backends.sqlite3'
+DATABASE_NAME = '<%= scope.lookupvar('graphite:params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/graphite.db'      # Or path to the database file if using sqlite3
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''
+DATABASE_HOST = ''
+DATABASE_PORT = ''
 
 
 #########################
