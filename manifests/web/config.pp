@@ -11,7 +11,7 @@ class graphite::web::config (
   $graphite_storage_dir         = "$install_path/$graphite_dirname/storage"
   $graphite_app_dir             = "$install_path/$graphite_dirname/webapp/graphite"
   $graphite_local_settings_file = "$graphite_app_dir/local_settings.py"
-  $graphite_app_settings_file   = "$graphite_app_dir/app_settings.py.erb"
+  $graphite_app_settings_file   = "$graphite_app_dir/app_settings.py"
 
   file { 'graphite_wsgi_conf':
     ensure  => present,

@@ -141,7 +141,7 @@ USE_REMOTE_USER_AUTHENTICATION = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '<%= scope.lookupvar('graphite:params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/graphite.db',
+        'NAME': '<%= @install_path -%>/<%= @graphite_dirname -%>/storage/graphite.db',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -151,7 +151,7 @@ DATABASES = {
 #
 # Users still on Django 1.1 must use the old method instead:
 DATABASE_ENGINE = 'django.db.backends.sqlite3'
-DATABASE_NAME = '<%= scope.lookupvar('graphite:params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/graphite.db'      # Or path to the database file if using sqlite3
+DATABASE_NAME = '<%= @install_path -%>/<%= @graphite_dirname -%>/storage/graphite.db'      # Or path to the database file if using sqlite3
 DATABASE_USER = ''
 DATABASE_PASSWORD = ''
 DATABASE_HOST = ''
