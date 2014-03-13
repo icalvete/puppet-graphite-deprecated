@@ -18,4 +18,11 @@ class graphite::params {
   $graphite_dirname     = 'graphite'
   $carbon_dirname       = 'graphite'
   $whisper_dirname      = 'graphite'
+
+  $ldap_host            = hiera('ldap_host')
+  $ldap_suffix          = hiera('ldap_suffix')
+  $ldap_search_user     = hiera('ldap_search_user')
+  $ldap_search_pass     = hiera('ldap_search_pass')
+
+  $web_package          = ['python-django', 'python-cairo', 'python-django-tagging', 'python-ldap']
 }

@@ -1,7 +1,8 @@
 class graphite::web::config (
 
   $webserver      = 'apache2',
-  $webserver_user = 'www-data'
+  $webserver_user = 'www-data',
+  $ldap           = $web::ldap
 
 ) {
 

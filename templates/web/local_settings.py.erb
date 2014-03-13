@@ -96,6 +96,15 @@
 #LDAP_BASE_USER = "CN=some_readonly_account,DC=mycompany,DC=com"
 #LDAP_BASE_PASS = "readonly_account_password"
 #LDAP_USER_QUERY = "(username=%s)"  #For Active Directory use "(sAMAccountName=%s)"
+<% if @ldap -%>
+USE_LDAP_AUTH = True
+<% end -%>
+LDAP_SERVER = "<%= scope.lookupvar('graphite::params::ldap_host') -%>"
+LDAP_PORT = 389
+LDAP_SEARCH_BASE = "<%= scope.lookupvar('graphite::params::ldap_suffix') -%>" # "OU=users,DC=mydomain,DC=com"
+LDAP_BASE_USER = "cn=<%= scope.lookupvar('graphite::params::ldap_search_user') -%>,ou=Special Users,<%= scope.lookupvar('graphite::params::ldap_suffix') -%>" # "CN=some_readonly_account,DC=mydomain,DC=com"
+LDAP_BASE_PASS = "<%= scope.lookupvar('graphite::params::ldap_search_pass') -%>" # "my_password"
+LDAP_USER_QUERY = "(uid=%s)" # "(username=%s)"  For Active Directory use "(sAMAccountName=%s)"
 #
 # If you want to further customize the ldap connection options you should
 # directly use ldap.set_option to set the ldap module's global options.
