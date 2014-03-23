@@ -15,9 +15,10 @@ WSGISocketPrefix /var/run/wsgi
 <VirtualHost *:443>
         ServerName graphite.<%= scope.lookupvar('graphite::params::org_domain') %>
         DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
-        ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
+        #ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
         #CustomLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/access.log common
-        CustomLog  '|/usr/bin/logger -p local4.info -t apache' combined
+        ErrorLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::error'
+        CustomLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::access' combined_sp
 
         <Location />
 		      AuthType Basic
