@@ -7,15 +7,7 @@ class graphite::web::install {
   $graphite_source_dir  = $graphite::params::graphite_source_dir
   $install_path         = $graphite::params::install_path
 
-  package { 'python-django':
-    ensure  => present
-  }
-
-  package { 'python-cairo':
-    ensure  => present
-  }
-
-  package { 'python-django-tagging':
+  package { $graphite::params::web_package:
     ensure  => present
   }
 

@@ -80,13 +80,17 @@ LOG_METRIC_ACCESS = False
 LEGEND_MAX_ITEMS = 10
 
 #Authentication settings
+<% if @ldap -%>
+USE_LDAP_AUTH = True
+<% else -%>
 USE_LDAP_AUTH = False
-LDAP_SERVER = "" # "ldapserver.mydomain.com"
+<% end -%>
+LDAP_SERVER = "<%= scope.lookupvar('graphite::params::ldap_host') -%>"
 LDAP_PORT = 389
-LDAP_SEARCH_BASE = "" # "OU=users,DC=mydomain,DC=com"
-LDAP_BASE_USER = "" # "CN=some_readonly_account,DC=mydomain,DC=com"
-LDAP_BASE_PASS = "" # "my_password"
-LDAP_USER_QUERY = "" # "(username=%s)"  For Active Directory use "(sAMAccountName=%s)"
+LDAP_SEARCH_BASE = "<%= scope.lookupvar('graphite::params::ldap_suffix') -%>" # "OU=users,DC=mydomain,DC=com"
+LDAP_BASE_USER = "cn=<%= scope.lookupvar('graphite::params::ldap_search_user') -%>,ou=Special Users,<%= scope.lookupvar('graphite::params::ldap_suffix') -%>" # "CN=some_readonly_account,DC=mydomain,DC=com"
+LDAP_BASE_PASS = "<%= scope.lookupvar('graphite::params::ldap_search_pass') -%>" # "my_password"
+LDAP_USER_QUERY = "(uid=%s)" # "(username=%s)"  For Active Directory use "(sAMAccountName=%s)"
 LDAP_URI = None
 
 #Set this to True to delegate authentication to the web server

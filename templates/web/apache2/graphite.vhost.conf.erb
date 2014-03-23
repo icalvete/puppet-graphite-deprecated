@@ -20,6 +20,7 @@ WSGISocketPrefix /var/run/wsgi
         ErrorLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::error'
         CustomLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::access' combined_sp
 
+<% if ! @ldap -%>
         <Location />
 		      AuthType Basic
 		      AuthName "Restricted Files"
@@ -27,6 +28,7 @@ WSGISocketPrefix /var/run/wsgi
 		      AuthUserFile <%= @htpasswd_file %>
 		      Require user <%= @htpasswd_user %>
         </Location>
+<% end -%>
 
         # I've found that an equal number of processes & threads tends
         # to show the best performance for Graphite (ymmv).

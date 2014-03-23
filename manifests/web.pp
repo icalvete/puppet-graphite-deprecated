@@ -1,4 +1,8 @@
-class graphite::web inherits graphite::params
+class graphite::web (
+
+  $ldap = false
+
+) inherits graphite::params
 {
 
   anchor { 'graphite::web::begin' :
