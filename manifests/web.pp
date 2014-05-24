@@ -1,9 +1,17 @@
 class graphite::web (
 
-  $ldap = false
+  $ldap         = false,
+  $org_domain   = graphite::params::org_domain,
+  $server_alias = undef
 
 ) inherits graphite::params
 {
+
+  if $server_alias {
+    if ! is_array($server_alias) {
+      fail('server_alias parameter must be un array')
+    }
+  }
 
   anchor { 'graphite::web::begin' :
     before => Class['graphite::web::install']
