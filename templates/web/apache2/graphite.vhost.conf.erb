@@ -17,10 +17,10 @@ WSGISocketPrefix /var/run/wsgi
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
         ServerName graphite.<%= scope.lookupvar('graphite::org_domain') %>
-        <% @server_alias.each do |sa| -%>
-        ServerAlias <%= sa %>
-        <% end -%>
-        DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
+   <% @server_alias.each do |sa| -%>
+   ServerAlias <%= sa %>
+   <% end -%>
+   DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
         #ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
         #CustomLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/access.log common
         ErrorLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::error'
