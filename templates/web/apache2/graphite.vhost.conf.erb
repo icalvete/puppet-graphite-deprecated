@@ -5,28 +5,37 @@ WSGISocketPrefix /var/run/wsgi
 #<IfModule !wsgi_module.c>
 #    LoadModule wsgi_module modules/mod_wsgi.so
 #</IfModule>
+<%
+  sn = scope.lookupvar('graphite::web::server_name')
+  if ! sn
+    server_name = scope.lookupvar('graphite::web::server_name')
+  else
+    org_domain = scope.lookupvar('graphite::web::org_domain')
+    server_name = "graphite.#{org_domain}"
+  end
+-%>
 
 <VirtualHost *:80>
-  ServerName graphite.<%= scope.lookupvar('graphite::org_domain') %>
+  ServerName <%= server_name %>
   <%
-      @server_alias =  scope.lookupvar('graphite::server_alias')
+      @server_alias =  scope.lookupvar('graphite::web::server_alias')
       @server_alias.each do |sa|
   -%>
-  ServerAlias <%= sa %>
+ServerAlias <%= sa %>
   <% end -%>
-  RedirectPermanent / https://graphite.<%= scope.lookupvar('graphite::org_domain') %>
+RedirectPermanent / https:/<%= server_name %>
 </VirtualHost>
 
 <IfModule mod_ssl.c>
 <VirtualHost *:443>
-  ServerName graphite.<%= scope.lookupvar('graphite::org_domain') %>
+  ServerName <%= server_name %>
   <%
-      @server_alias =  scope.lookupvar('graphite::server_alias')
+      @server_alias =  scope.lookupvar('graphite::web::server_alias')
       @server_alias.each do |sa|
   -%>
-  ServerAlias <%= sa %>
+ServerAlias <%= sa %>
   <% end -%>
-   DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
+DocumentRoot "<%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp"
         #ErrorLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/error.log
         #CustomLog <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/storage/log/webapp/access.log common
         ErrorLog '|/usr/bin/logger -p local4.info -t ::<%= scope.lookupvar('apache2::environment') -%>::apache::error'
@@ -51,7 +60,7 @@ WSGISocketPrefix /var/run/wsgi
 
         # XXX You will need to create this file! There is a graphite.wsgi.example
         # file in this directory that you can safely use, just copy it to graphite.wgsi
-        WSGIScriptAlias / <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/conf/graphite.wsg
+        WSGIScriptAlias / <%= scope.lookupvar('graphite::params::install_path') -%>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/conf/graphite.wsgi
 
         Alias /content/ <%= scope.lookupvar('graphite::params::install_path') %>/<%= scope.lookupvar('graphite::params::graphite_dirname') -%>/webapp/content/
         <Location "/content/">

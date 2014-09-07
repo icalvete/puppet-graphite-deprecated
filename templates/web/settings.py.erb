@@ -184,4 +184,13 @@ if USE_REMOTE_USER_AUTHENTICATION:
 if USE_LDAP_AUTH:
   AUTHENTICATION_BACKENDS.insert(0,'graphite.account.ldapBackend.LDAPBackend')
 
-ALLOWED_HOSTS = ['graphite.<%= scope.lookupvar('graphite::params::org_domain') -%>']
+<%
+  sn = scope.lookupvar('graphite::web::server_name')
+  if ! sn
+    server_name = scope.lookupvar('graphite::web::server_name')
+  else
+    org_domain = scope.lookupvar('graphite::web::org_domain')
+    server_name = "graphite.#{org_domain}"
+  end
+-%>
+ALLOWED_HOSTS = ['<%= server_name -%>']

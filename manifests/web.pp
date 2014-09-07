@@ -1,8 +1,9 @@
 class graphite::web (
 
   $ldap         = false,
-  $org_domain   = graphite::params::org_domain,
-  $server_alias = undef
+  $org_domain   = $graphite::params::org_domain,
+  $server_name  = undef,
+  $server_alias = ['graphite'],
 
 ) inherits graphite::params
 {
