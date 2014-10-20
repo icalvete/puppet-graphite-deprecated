@@ -7,9 +7,10 @@ class graphite::web::install {
   $graphite_source_dir  = $graphite::params::graphite_source_dir
   $install_path         = $graphite::params::install_path
 
-  package { $graphite::params::web_package:
-    ensure  => present
-  }
+  realize ['python-django']
+  realize ['python-cairo']
+  realize ['python-django-tagging']
+  realize ['python-ldap']
 
   exec { 'graphite_source_tar':
     cwd     => $source_package_path,
