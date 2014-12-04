@@ -23,7 +23,8 @@ class graphite::web (
   }
 
   class { 'graphite::web::config' :
-    require => Class['graphite::web::install']
+    require => Class['graphite::web::install'],
+    notify  => Class['apache2::service']
   }
 
   anchor { 'graphite::web::end' :
