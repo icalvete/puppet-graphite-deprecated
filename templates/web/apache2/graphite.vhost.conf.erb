@@ -7,7 +7,7 @@ WSGISocketPrefix /var/run/wsgi
 #</IfModule>
 <%
   sn = scope.lookupvar('graphite::web::server_name')
-  if ! sn
+  if defined?(sn)
     server_name = scope.lookupvar('graphite::web::server_name')
   else
     org_domain = scope.lookupvar('graphite::web::org_domain')
